@@ -11,8 +11,6 @@ const startInput = document.getElementById("start-input");
 const endInput = document.getElementById("end-input");
 const recentEventsEl = document.getElementById("recent-events");
 const historyEventsEl = document.getElementById("history-events");
-const exportButton = document.getElementById("export-data");
-const importInput = document.getElementById("import-data");
 const clearButton = document.getElementById("clear-data");
 const seedButton = document.getElementById("seed-sample");
 
@@ -47,8 +45,6 @@ function bindEvents() {
   eventTypeSelect.addEventListener("change", updateConditionalFields);
   eventForm.addEventListener("submit", handleEventSubmit);
   profileForm.addEventListener("submit", handleProfileSubmit);
-  exportButton.addEventListener("click", exportData);
-  importInput.addEventListener("change", importData);
   clearButton.addEventListener("click", clearData);
   seedButton.addEventListener("click", seedSampleData);
 }
@@ -365,39 +361,6 @@ function caregiverShare(events) {
   return Object.entries(counts)
     .map(([name, count]) => `${name}: ${count}`)
     .join(" | ");
-}
-
-function exportData() {
-  const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = "ninho-playroom-backup.json";
-  anchor.click();
-  URL.revokeObjectURL(url);
-}
-
-function importData(event) {
-  const file = event.target.files[0];
-  if (!file) {
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.onload = () => {
-    try {
-      const parsed = JSON.parse(reader.result);
-      state.events = Array.isArray(parsed.events) ? parsed.events : [];
-      state.profile = parsed.profile || defaultProfile();
-      persistState();
-      render();
-    } catch {
-      window.alert("Não consegui importar esse arquivo.");
-    } finally {
-      importInput.value = "";
-    }
-  };
-  reader.readAsText(file);
 }
 
 function clearData() {

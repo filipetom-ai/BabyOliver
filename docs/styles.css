@@ -49,7 +49,6 @@ button {
 }
 
 .hero-card,
-.sync-banner,
 .tab-bar,
 .feature-panel,
 .stat-panel,
@@ -99,7 +98,6 @@ h2 {
 }
 
 .hero-text,
-.sync-banner p,
 .stat-panel p,
 .insight-card p,
 .helper-note,
@@ -110,8 +108,7 @@ h2 {
   line-height: 1.65;
 }
 
-.hero-actions,
-.backup-actions {
+.hero-actions {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
@@ -124,11 +121,11 @@ h2 {
 }
 
 button,
-.import-button {
+.tab {
   border: 0;
   border-radius: 999px;
-  min-height: 48px;
-  padding: 0 18px;
+  min-height: 58px;
+  padding: 0 24px;
   font-weight: 800;
 }
 
@@ -137,9 +134,7 @@ button.primary {
   color: #fff7eb;
 }
 
-button.secondary,
-.backup-actions button,
-.import-button {
+button.secondary {
   background: var(--surface-strong);
   color: var(--accent);
   border: 1px solid var(--border);
@@ -152,34 +147,6 @@ button.wide {
 button.danger {
   background: rgba(177, 74, 74, 0.12);
   color: var(--danger);
-}
-
-.sync-banner {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  align-items: center;
-  margin-top: 18px;
-  padding: 20px 24px;
-  border-radius: var(--radius-lg);
-}
-
-.sync-banner strong {
-  display: block;
-  margin-bottom: 4px;
-}
-
-.sync-banner p {
-  margin: 0;
-}
-
-.import-button {
-  display: inline-flex;
-  align-items: center;
-}
-
-.import-button input {
-  display: none;
 }
 
 .tab-bar {
@@ -488,7 +455,6 @@ button.danger {
   }
 
   .hero-card,
-  .sync-banner,
   .dashboard-grid,
   .insight-grid,
   .trend-grid,
@@ -499,10 +465,6 @@ button.danger {
 
   .feature-panel {
     grid-column: span 1;
-  }
-
-  .sync-banner {
-    align-items: flex-start;
   }
 
   .event-item {
