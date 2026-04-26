@@ -1,0 +1,7 @@
+.DS_Store
+bauras_photos/
+it_audit_dashboard_template.xlsx
+net_scan.py
+net_scan_gui.py
+net_scan_web.py
+wayback_download.py

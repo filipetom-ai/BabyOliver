@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ninho Playroom</title>
+  <meta name="description" content="App para acompanhar sono, mamadas, fraldas e cuidados do bebê.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero-card">
+      <div>
+        <p class="eyebrow">Ninho Playroom</p>
+        <h1>Acompanhamento do bebê com cara leve, útil e compartilhável.</h1>
+        <p class="hero-text">
+          Registre mamadas, sono, fraldas, bomba, remédios e anotações. O app salva no navegador e já
+          está pronto para ir ao GitHub. Para sincronizar entre vocês dois, a próxima etapa será ligar um backend.
+        </p>
+      </div>
+      <div class="hero-actions">
+        <button class="primary" data-tab-target="registro">Registrar agora</button>
+        <button class="secondary" id="seed-sample">Carregar exemplo</button>
+      </div>
+    </header>
+
+    <section class="sync-banner">
+      <div>
+        <strong>Status:</strong> modo local ativo
+        <p>Publicar no GitHub Pages funciona já. Sincronização entre aparelhos precisa de backend depois.</p>
+      </div>
+      <div class="backup-actions">
+        <button id="export-data">Exportar backup</button>
+        <label class="import-button">
+          Importar backup
+          <input type="file" id="import-data" accept="application/json">
+        </label>
+      </div>
+    </section>
+
+    <nav class="tab-bar" aria-label="Navegação principal">
+      <button class="tab active" data-tab-target="hoje">Hoje</button>
+      <button class="tab" data-tab-target="registro">Registrar</button>
+      <button class="tab" data-tab-target="tendencias">Tendências</button>
+      <button class="tab" data-tab-target="historico">Histórico</button>
+      <button class="tab" data-tab-target="ajustes">Ajustes</button>
+    </nav>
+
+    <main class="tab-panels">
+      <section class="tab-panel active" data-tab-panel="hoje">
+        <div class="dashboard-grid">
+          <article class="feature-panel">
+            <p class="eyebrow">Próxima ação sugerida</p>
+            <h2 id="next-action-title">Aguardando registros</h2>
+            <p id="next-action-copy">Adicione alguns eventos para o app sugerir a próxima necessidade mais provável.</p>
+          </article>
+
+          <article class="stat-panel accent">
+            <span>Ingestão hoje</span>
+            <strong id="today-intake">0 ml</strong>
+            <p>Leite, fórmula ou mamadeira registrada hoje.</p>
+          </article>
+
+          <article class="stat-panel">
+            <span>Sono total</span>
+            <strong id="today-sleep">0h 00m</strong>
+            <p>Soma de cochilos e sono encerrado no dia.</p>
+          </article>
+
+          <article class="stat-panel">
+            <span>Fraldas</span>
+            <strong id="today-diapers">0</strong>
+            <p>Trocas registradas nas últimas 24 horas.</p>
+          </article>
+
+          <article class="stat-panel">
+            <span>Bomba hoje</span>
+            <strong id="today-pump">0 ml</strong>
+            <p>Total extraído nas últimas 24 horas.</p>
+          </article>
+        </div>
+
+        <div class="insight-grid">
+          <article class="insight-card">
+            <span>Intervalo médio entre mamadas</span>
+            <strong id="avg-feed-gap">-</strong>
+            <p>Ajuda a perceber padrão real sem depender só da memória.</p>
+          </article>
+          <article class="insight-card">
+            <span>Janela média de vigília</span>
+            <strong id="avg-awake-window">-</strong>
+            <p>Importante para ajustar a hora do próximo cochilo.</p>
+          </article>
+          <article class="insight-card">
+            <span>Maior cochilo do dia</span>
+            <strong id="longest-nap">-</strong>
+            <p>Bom sinal para entender em qual período o bebê descansa melhor.</p>
+          </article>
+        </div>
+
+        <section class="timeline-panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Agora há pouco</p>
+              <h2>Últimos registros</h2>
+            </div>
+          </div>
+          <div id="recent-events" class="event-list empty-state">
+            Nenhum evento registrado ainda.
+          </div>
+        </section>
+      </section>
+
+      <section class="tab-panel" data-tab-panel="registro">
+        <div class="form-layout">
+          <article class="form-card">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Novo evento</p>
+                <h2>Registrar cuidado</h2>
+              </div>
+            </div>
+
+            <form id="event-form" class="event-form">
+              <label>
+                Tipo
+                <select name="type" id="event-type">
+                  <option value="feed">Mamadeira / leite</option>
+                  <option value="sleep">Sono</option>
+                  <option value="diaper">Fralda</option>
+                  <option value="pump">Bomba</option>
+                  <option value="medicine">Remédio</option>
+                  <option value="note">Anotação</option>
+                </select>
+              </label>
+
+              <label>
+                Quem registrou
+                <select name="caregiver">
+                  <option value="Filipe">Filipe</option>
+                  <option value="Esposa">Esposa</option>
+                </select>
+              </label>
+
+              <label>
+                Horário de início
+                <input type="datetime-local" name="start" id="start-input" required>
+              </label>
+
+              <label class="conditional field-sleep field-pump">
+                Horário de fim
+                <input type="datetime-local" name="end" id="end-input">
+              </label>
+
+              <label class="conditional field-feed field-pump">
+                Quantidade
+                <div class="input-suffix">
+                  <input type="number" name="amount" min="0" step="5" placeholder="150">
+                  <span>ml</span>
+                </div>
+              </label>
+
+              <label class="conditional field-diaper">
+                Tipo de fralda
+                <select name="diaperKind">
+                  <option value="xixi">Xixi</option>
+                  <option value="coco">Cocô</option>
+                  <option value="mista">Mista</option>
+                </select>
+              </label>
+
+              <label class="conditional field-medicine">
+                Dose
+                <div class="input-suffix">
+                  <input type="number" name="dose" min="0" step="0.5" placeholder="2.5">
+                  <span>ml</span>
+                </div>
+              </label>
+
+              <label>
+                Observação
+                <textarea name="note" rows="4" placeholder="Ex.: dormiu melhor no colo, mamou mais rápido, acordou irritado..."></textarea>
+              </label>
+
+              <button type="submit" class="primary wide">Salvar registro</button>
+            </form>
+          </article>
+
+          <article class="form-card helper-card">
+            <p class="eyebrow">O que vale acompanhar</p>
+            <h2>Tendências mais úteis na prática</h2>
+            <ul class="help-list">
+              <li>Volume total de leite em 24h</li>
+              <li>Intervalo médio entre mamadas</li>
+              <li>Janela média de vigília</li>
+              <li>Maior cochilo e melhor horário do cochilo</li>
+              <li>Quantidade de fraldas nas últimas 24h</li>
+            </ul>
+            <p class="helper-note">
+              Essas métricas ajudam mais no dia a dia do que gráficos excessivos. A ideia é apoiar decisão,
+              não aumentar ansiedade.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="tab-panel" data-tab-panel="tendencias">
+        <div class="trend-board">
+          <article class="trend-hero">
+            <p class="eyebrow">Resumo inteligente</p>
+            <h2 id="trend-headline">Sem dados suficientes ainda</h2>
+            <p id="trend-summary">Registre alguns eventos para gerar um resumo automático do dia.</p>
+          </article>
+
+          <div class="trend-grid">
+            <article class="trend-panel">
+              <span>Mamadas nas últimas 24h</span>
+              <strong id="feeds-count">0</strong>
+              <p>Quantidade total registrada.</p>
+            </article>
+            <article class="trend-panel">
+              <span>Média por mamada</span>
+              <strong id="avg-feed-volume">0 ml</strong>
+              <p>Volume médio por evento de alimentação.</p>
+            </article>
+            <article class="trend-panel">
+              <span>Maior período dormindo</span>
+              <strong id="trend-longest-sleep">-</strong>
+              <p>Maior sono encerrado nas últimas 24h.</p>
+            </article>
+            <article class="trend-panel">
+              <span>Registros por cuidador</span>
+              <strong id="caregiver-share">-</strong>
+              <p>Boa pista para equilibrar a rotina.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-panel" data-tab-panel="historico">
+        <section class="timeline-panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Tudo registrado</p>
+              <h2>Histórico completo</h2>
+            </div>
+            <button id="clear-data" class="danger">Apagar dados</button>
+          </div>
+          <div id="history-events" class="event-list empty-state">
+            Nenhum evento registrado ainda.
+          </div>
+        </section>
+      </section>
+
+      <section class="tab-panel" data-tab-panel="ajustes">
+        <div class="settings-grid">
+          <article class="form-card">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Perfil</p>
+                <h2>Dados rápidos do bebê</h2>
+              </div>
+            </div>
+            <form id="profile-form" class="event-form">
+              <label>
+                Nome do bebê
+                <input type="text" name="babyName" placeholder="Ex.: Theo">
+              </label>
+              <label>
+                Data de nascimento
+                <input type="date" name="birthDate">
+              </label>
+              <label>
+                Meta de leite por dia
+                <div class="input-suffix">
+                  <input type="number" name="dailyGoalMl" min="0" step="10" placeholder="800">
+                  <span>ml</span>
+                </div>
+              </label>
+              <button type="submit" class="primary wide">Salvar perfil</button>
+            </form>
+          </article>
+
+          <article class="form-card helper-card">
+            <p class="eyebrow">Publicação</p>
+            <h2>Como vocês dois acessam</h2>
+            <ol class="help-list numbered">
+              <li>Subir esta pasta para um repositório no GitHub.</li>
+              <li>Ativar GitHub Pages apontando para a branch principal.</li>
+              <li>Abrir o link no celular de vocês.</li>
+              <li>Na próxima etapa, ligar backend para sincronizar os dados entre aparelhos.</li>
+            </ol>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
