@@ -10,12 +10,28 @@
 <body>
   <div class="app-shell">
     <header class="hero-card">
-      <div>
-        <h1>Baby Oliver</h1>
-      </div>
-      <div class="hero-actions">
-        <button class="primary" data-tab-target="registro">Registrar agora</button>
-        <button class="secondary" id="seed-sample">Carregar exemplo</button>
+      <div class="hero-photo-frame">
+        <div class="hero-badge">RAWR</div>
+        <img
+          class="hero-photo"
+          src="ChatGPT%20Image%20Apr%2026,%202026,%2002_01_20%20PM.png"
+          alt="Foto do Baby Oliver"
+        >
+        <div class="dino-mark" aria-hidden="true">
+          <div class="dino-body">
+            <span class="dino-eye"></span>
+            <span class="dino-cheek"></span>
+            <span class="dino-hand"></span>
+          </div>
+          <div class="dino-belly"></div>
+          <div class="dino-tail"></div>
+          <div class="dino-spikes">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -215,6 +231,18 @@
               <p>Boa pista para equilibrar a rotina.</p>
             </article>
           </div>
+          <article class="chart-panel">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Gráfico útil</p>
+                <h2>Ingestão nas últimas 24h</h2>
+              </div>
+            </div>
+            <p class="chart-copy">Distribuição do volume de mamadas por período do dia. Isso ajuda a enxergar padrão real de rotina com rapidez.</p>
+            <div id="feed-chart" class="feed-chart">
+              <div class="chart-empty">Adicione mamadas para visualizar o gráfico.</div>
+            </div>
+          </article>
         </div>
       </section>
 

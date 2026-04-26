@@ -56,7 +56,8 @@ button {
 .timeline-panel,
 .form-card,
 .trend-hero,
-.trend-panel {
+.trend-panel,
+.chart-panel {
   background: var(--surface);
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
@@ -64,11 +65,12 @@ button {
 }
 
 .hero-card {
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 20px;
-  padding: 28px;
+  padding: 18px;
   border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at top left, rgba(255, 155, 104, 0.24), transparent 30%),
+    radial-gradient(circle at 78% 20%, rgba(77, 201, 175, 0.22), transparent 26%),
+    var(--surface);
 }
 
 .eyebrow {
@@ -80,21 +82,178 @@ button {
   color: #805f39;
 }
 
-h1,
 h2 {
   margin: 0;
   font-family: var(--font-display);
   letter-spacing: -0.04em;
 }
 
-h1 {
-  font-size: clamp(2.3rem, 5vw, 4.4rem);
-  line-height: 0.96;
-}
-
 h2 {
   font-size: clamp(1.6rem, 3vw, 2.4rem);
   line-height: 1;
+}
+
+.hero-photo-frame {
+  position: relative;
+  min-height: 420px;
+  border-radius: 28px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 20% 18%, rgba(255, 179, 108, 0.5), transparent 18%),
+    radial-gradient(circle at 78% 22%, rgba(111, 213, 167, 0.45), transparent 18%),
+    linear-gradient(180deg, #d8e7e0, #f8fbf7);
+}
+
+.hero-badge {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  z-index: 3;
+  width: fit-content;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #193339;
+  color: #fff7eb;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  box-shadow: 0 10px 24px rgba(25, 51, 57, 0.22);
+}
+
+.dino-mark {
+  position: relative;
+  width: 120px;
+  height: 96px;
+  flex: 0 0 120px;
+}
+
+.hero-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+}
+
+.hero-photo-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(13, 23, 26, 0.01), rgba(13, 23, 26, 0.08));
+}
+
+.hero-photo-frame .dino-mark {
+  position: absolute;
+  right: 18px;
+  bottom: 16px;
+  z-index: 2;
+  transform: scale(1.05);
+  filter: drop-shadow(0 18px 24px rgba(25, 51, 57, 0.18));
+}
+
+.dino-body {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  width: 92px;
+  height: 82px;
+  border-radius: 48% 52% 45% 55%;
+  background: linear-gradient(180deg, #6fd5a7, #37b084);
+  box-shadow: inset -8px -10px 0 rgba(21, 114, 84, 0.18);
+}
+
+.dino-body::before {
+  content: "";
+  position: absolute;
+  right: -8px;
+  top: 18px;
+  width: 34px;
+  height: 28px;
+  border-radius: 52% 48% 48% 52%;
+  background: #6fd5a7;
+  transform: rotate(-16deg);
+}
+
+.dino-body::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  bottom: -8px;
+  width: 58px;
+  height: 26px;
+  border-radius: 20px;
+  background: rgba(255, 247, 235, 0.46);
+}
+
+.dino-eye {
+  position: absolute;
+  right: 20px;
+  top: 22px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #173238;
+  box-shadow: 2px 2px 0 rgba(255, 255, 255, 0.35) inset;
+}
+
+.dino-cheek {
+  position: absolute;
+  right: 12px;
+  top: 42px;
+  width: 16px;
+  height: 8px;
+  border-bottom: 3px solid #173238;
+  border-radius: 0 0 16px 16px;
+}
+
+.dino-hand {
+  position: absolute;
+  right: 30px;
+  bottom: 8px;
+  width: 18px;
+  height: 18px;
+  border-radius: 40% 60% 40% 60%;
+  background: #52c696;
+  transform: rotate(26deg);
+}
+
+.dino-belly {
+  position: absolute;
+  left: 42px;
+  top: 42px;
+  width: 50px;
+  height: 42px;
+  border-radius: 42% 42% 46% 46%;
+  background: rgba(255, 247, 235, 0.88);
+}
+
+.dino-tail {
+  position: absolute;
+  left: 0;
+  top: 56px;
+  width: 46px;
+  height: 18px;
+  border-radius: 18px 6px 6px 18px;
+  background: linear-gradient(90deg, #2da97b, #66d2a4);
+  transform: rotate(-18deg);
+}
+
+.dino-spikes {
+  position: absolute;
+  left: 44px;
+  top: 4px;
+  display: flex;
+  gap: 4px;
+}
+
+.dino-spikes span {
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 18px solid #ffb36c;
+  transform: rotate(-6deg);
 }
 
 .hero-text,
@@ -106,18 +265,6 @@ h2 {
 .trend-hero p {
   color: var(--muted);
   line-height: 1.65;
-}
-
-.hero-actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.hero-actions {
-  align-self: end;
-  justify-content: flex-start;
 }
 
 button,
@@ -192,7 +339,8 @@ button.danger {
 .timeline-panel,
 .form-card,
 .trend-hero,
-.trend-panel {
+.trend-panel,
+.chart-panel {
   border-radius: var(--radius-xl);
 }
 
@@ -433,6 +581,65 @@ button.danger {
   margin-top: 0;
 }
 
+.chart-panel {
+  padding: 22px;
+}
+
+.chart-copy {
+  margin: 0 0 18px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.feed-chart {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  align-items: end;
+  min-height: 280px;
+}
+
+.chart-bar-card {
+  display: grid;
+  gap: 10px;
+}
+
+.chart-bar-wrap {
+  display: flex;
+  align-items: end;
+  min-height: 180px;
+  padding: 14px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255, 155, 104, 0.1), rgba(77, 201, 175, 0.12));
+}
+
+.chart-bar {
+  width: 100%;
+  min-height: 16px;
+  border-radius: 20px 20px 10px 10px;
+  background: linear-gradient(180deg, #ff9b68, #4dc9af);
+  box-shadow: 0 12px 24px rgba(77, 201, 175, 0.18);
+}
+
+.chart-meta strong,
+.chart-meta span {
+  display: block;
+}
+
+.chart-meta strong {
+  margin-bottom: 4px;
+  font-size: 1rem;
+}
+
+.chart-meta span {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.chart-empty {
+  color: var(--muted);
+}
+
 @media (max-width: 1024px) {
   .hero-card,
   .dashboard-grid,
@@ -445,6 +652,14 @@ button.danger {
 
   .feature-panel {
     grid-column: span 2;
+  }
+
+  .feed-chart {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hero-photo-frame {
+    min-height: 360px;
   }
 }
 
@@ -465,6 +680,25 @@ button.danger {
 
   .feature-panel {
     grid-column: span 1;
+  }
+
+  .feed-chart {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-photo-frame {
+    min-height: 280px;
+  }
+
+  .hero-badge {
+    left: 14px;
+    top: 14px;
+  }
+
+  .dino-mark {
+    width: 110px;
+    height: 88px;
+    flex-basis: 110px;
   }
 
   .event-item {

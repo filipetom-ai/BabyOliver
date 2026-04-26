@@ -11,14 +11,13 @@ const startInput = document.getElementById("start-input");
 const endInput = document.getElementById("end-input");
 const recentEventsEl = document.getElementById("recent-events");
 const historyEventsEl = document.getElementById("history-events");
+const feedChartEl = document.getElementById("feed-chart");
 const clearButton = document.getElementById("clear-data");
-const seedButton = document.getElementById("seed-sample");
 
 const feedTypes = new Set(["feed"]);
 const timedTypes = new Set(["sleep"]);
 const amountTypes = new Set(["feed", "pump"]);
 const doseTypes = new Set(["medicine"]);
-const diaperTypes = new Set(["diaper"]);
 
 initialize();
 
@@ -38,15 +37,10 @@ function bindEvents() {
     button.addEventListener("click", () => activateTab(button.dataset.tabTarget));
   });
 
-  document.querySelector(".hero-actions [data-tab-target='registro']").addEventListener("click", () => {
-    activateTab("registro");
-  });
-
   eventTypeSelect.addEventListener("change", updateConditionalFields);
   eventForm.addEventListener("submit", handleEventSubmit);
   profileForm.addEventListener("submit", handleProfileSubmit);
   clearButton.addEventListener("click", clearData);
-  seedButton.addEventListener("click", seedSampleData);
 }
 
 function activateTab(tabName) {
@@ -164,6 +158,7 @@ function renderTrendBoard() {
   const headline = buildTrendHeadline(feedEvents, sleepEvents);
   setText("trend-headline", headline.title);
   setText("trend-summary", headline.summary);
+  renderFeedChart(feedEvents);
 }
 
 function renderHistory() {
@@ -361,6 +356,45 @@ function caregiverShare(events) {
   return Object.entries(counts)
     .map(([name, count]) => `${name}: ${count}`)
     .join(" | ");
+}
+
+function renderFeedChart(feedEvents) {
+  const buckets = [
+    { label: "Madrugada", start: 0, end: 6, total: 0 },
+    { label: "Manhã", start: 6, end: 12, total: 0 },
+    { label: "Tarde", start: 12, end: 18, total: 0 },
+    { label: "Noite", start: 18, end: 24, total: 0 }
+  ];
+
+  feedEvents.forEach((event) => {
+    const hour = event.startDate.getHours();
+    const bucket = buckets.find((item) => hour >= item.start && hour < item.end);
+    if (bucket) {
+      bucket.total += event.amount || 0;
+    }
+  });
+
+  const maxTotal = Math.max(...buckets.map((item) => item.total), 0);
+
+  if (maxTotal === 0) {
+    feedChartEl.innerHTML = '<div class="chart-empty">Adicione mamadas para visualizar o gráfico.</div>';
+    return;
+  }
+
+  feedChartEl.innerHTML = buckets.map((bucket) => {
+    const height = Math.max(16, Math.round((bucket.total / maxTotal) * 180));
+    return `
+      <article class="chart-bar-card">
+        <div class="chart-bar-wrap">
+          <div class="chart-bar" style="height: ${height}px"></div>
+        </div>
+        <div class="chart-meta">
+          <strong>${bucket.total} ml</strong>
+          <span>${bucket.label}</span>
+        </div>
+      </article>
+    `;
+  }).join("");
 }
 
 function clearData() {
